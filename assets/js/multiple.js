@@ -2,7 +2,7 @@ function makeMultiple() {
     d3.tsv("https://raw.githubusercontent.com/miscellane/theta/develop/data/multiple.tsv")
         .then(function(data){
 
-            var width = 600, height = 300, 
+            var width = 300, height = 150, 
                 margin = {top: 20, right: 20, bottom: 20, left: 20};
 
             var scX = d3.scaleLinear()
