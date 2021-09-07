@@ -8,7 +8,6 @@ function makeSuccinct(){
             // SVG area specification
             var width = svg.attr("width");
             var height = svg.attr("height");
-            var margin = {top: 20, right: 20, bottom: 20, left: 20};
             
 
             // scaling
@@ -17,9 +16,9 @@ function makeSuccinct(){
                     .domain(d3.extent(data, accessor))
                     .range(range).nice();
             }
-            var scX = makeScale(d => d["x"], [margin.left, width - margin.right]);
-            var scRoot = makeScale(d => d["root"], [height - margin.bottom, margin.top]);
-            var scStem = makeScale(d => d["stem"], [height - margin.bottom, margin.top]);
+            var scX = makeScale(d => d["x"], [0, width]);
+            var scRoot = makeScale(d => d["root"], [height, 0]);
+            var scStem = makeScale(d => d["stem"], [height, 0]);
 
 
             // drawing
@@ -50,5 +49,22 @@ function makeSuccinct(){
             drawData(gRoot, d => scRoot(d["root"]), d3.curveStep);
             drawData(gStem, d => scStem(d["stem"]), d3.curveNatural);
 
-        })
+            gRoot.selectAll("circle").attr("fill", "blue")
+            gRoot.selectAll("path").attr("stroke", "blue")
+            gStem.selectAll("circle").attr("fill", "green")
+            gStem.selectAll("path").attr("stroke", "green")
+
+            var axisMaker = d3.axisRight(scRoot); // draws tick labels on the right side of an axis
+            axisMaker(svg.append("g"));
+            axisMaker = d3.axisLeft(scStem);
+
+            svg.append("g")
+                .attr("transform", "translate(" + width + ",0)")
+                .call(axisMaker);
+
+            svg.append("g")
+                .call(d3.axisTop(scX))
+                .attr("transform", "translate(0," + height + ")")
+
+        });
 }
