@@ -1,3 +1,4 @@
+window.addEventListener( "load", makeUpdates );
 function makeUpdates(){
 
     // the data
@@ -10,7 +11,7 @@ function makeUpdates(){
     // vertical position trackers -> text & circle
     var j = -1, k = -1;
 
-    var svg = d3.select('#key');
+    var svg = d3.select('#updates');
 
     // text labels, https://developer.mozilla.org/en-US/docs/Web/SVG/Element/text
     svg.selectAll('text')
@@ -26,14 +27,10 @@ function makeUpdates(){
 
     svg.on('click', function(){
 
-        var cs = svg.selectAll('circle')
-            .data(next, d => d[0])
+        var cs = svg.selectAll('circle').data(next, d => d[0]);
     
-        cs.transition().duration(1000)
-            .attr('cx',d => scX(d[1]));
-
-        cs.exit()
-            .attr('fill', 'blue');
+        cs.transition().duration(1000).attr('cx',d => scX(d[1]));
+        cs.exit().attr('fill', 'blue');
         
     });
 
